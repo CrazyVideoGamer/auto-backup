@@ -45,5 +45,3 @@ setup(args)
 # 	sys.exit(1)
 
 # If the target does exist
-
-print("yay")
