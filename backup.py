@@ -18,10 +18,11 @@ init()
 import sys
 import argparse
 import json
+from helpers import *
 
-import parser
+from parser import parser
 
-args = parser.parser.parse_args()
+args = parser.parse_args()
 
 setup(args)
 
