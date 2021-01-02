@@ -1,3 +1,6 @@
+from colorama import Fore, Style, init
+init()
+
 import os, tempfile
 from pathlib import Path
 

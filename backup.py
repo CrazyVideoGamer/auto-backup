@@ -12,9 +12,6 @@ Options:
 """
 # import reset
 
-from colorama import Fore, Style, init
-init()
-
 import sys
 import argparse
 import json
