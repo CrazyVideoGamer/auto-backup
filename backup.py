@@ -12,16 +12,18 @@ Options:
 """
 # import reset
 
-import sys
-import argparse
 import json
+from pathlib import Path
 from helpers import *
 
 from parser import parser
 
 args = parser.parse_args()
+target = args.target[0]
 
-setup(args)
+check_for_duplicates(target)
+
+setup(args) # Sets up all the setDirectory things
 
 # directory_set = False # So we don't repeat directory checking
 
@@ -42,3 +44,15 @@ setup(args)
 # 	sys.exit(1)
 
 # If the target does exist
+if args.command == 'add':
+  path = Path('db.json')
+  if not path.exists():
+    path.touch()
+    path.write_text(json.dumps([]))
+  new_entry = {
+    'target': str(args.target[0]),
+    'interval': str(args.interval)
+  }
+  old = json.loads(path.read_text())
+  old.append(new_entry)
+  path.write_text(json.dumps(old))

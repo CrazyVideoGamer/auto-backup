@@ -1,7 +1,7 @@
 from colorama import Fore, Style, init
 init()
 
-import os, tempfile
+import os, tempfile, sys
 from pathlib import Path
 
 def is_path_sibling_creatable(pathname: str) -> bool:
@@ -50,7 +50,7 @@ class Minute:
   def __repr__(self):
     return f'Minutes({self.val})'
   def __str__(self):
-    return f'Minutes: {self.val}'
+    return self.val
   def __eq__(self, other):
     if isinstance(other, int):
       if self.val == other:
@@ -77,4 +77,11 @@ def setup(args):
 
   if not Path(args.target[0]).exists(): # Checks if target exists
     print(f'{Fore.RED}File/directory not found{Style.RESET_ALL}')
+    sys.exit(1)
+
+def check_for_duplicates(target):
+  path = Path('db.json')
+  contents = path.read_text()
+  if contents.find(f'"target": "{str(target)}"') != -1:
+    print(f"{Fore.RED}Target {target} already exists. Use update to update a queriy, or use remove to remove it.{Style.RESET_ALL}")
     sys.exit(1)
