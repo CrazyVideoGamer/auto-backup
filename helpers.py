@@ -7,7 +7,7 @@ from pathlib import Path
 def error_message(text):
   print(f'{Fore.RED}{text}{Style.RESET_ALL}')
 
-def is_path_sibling_creatable(pathname: str) -> bool:
+def is_path_sibling_creatable(pathname):
 	'''
 	`True` if the current user has sufficient permissions to create **siblings**
 	(i.e., arbitrary files in the parent directory) of the passed pathname;

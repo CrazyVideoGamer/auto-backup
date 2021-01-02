@@ -3,7 +3,7 @@ import sys
 from helpers import Minute, str2bool, error_message
 import argparse
 
-if not len(sys.argv) > 1:
+if len(sys.argv) <= 1:
   error_message('No arguments were provided. Use -h or --help for information')
   sys.exit(1)
 
