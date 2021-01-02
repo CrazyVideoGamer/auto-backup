@@ -1,5 +1,6 @@
 """Usage:
-backup.py <folder-file-path> [--setDirectory=<path>]
+backup.py run [--targets] <- TODO
+backup.py add <folder-file-path> <interval> [--setDirectory=<path>]
 					(-h | --help)
 							
 
@@ -20,12 +21,17 @@ import json
 from pathlib import Path
 from helpers import *
 
-parser = argparse.ArgumentParser()
-parser.add_argument('target', nargs=1, type=Path)
-parser.add_argument('interval', nargs=1, type=Minute)
-parser.add_argument('--setDirectory', type=str2bool, help='set directory to add backups')
+import parser
 
-args = parser.parse_args()
+# parser = argparse.ArgumentParser()
+# subparsers = parser.add_subparsers(help='sub-command -h') # TODO: Try to add --help as well
+
+# add_parser = subparsers.add_parser("add", help="add -h")
+# add_parser.add_argument('target', nargs=1, type=Path)
+# add_parser.add_argument('interval', nargs=1, type=Minute)
+# add_parser.add_argument('--setDirectory', type=str2bool, help='set directory to add backups')
+
+args = parser.parser.parse_args()
 
 directory_set = False # So we don't repeat directory checking
 
@@ -47,4 +53,5 @@ if not Path(args.target[0]).exists(): # Checks if target exists
 
 # If the target does exist
 
-print(args.interval[0].val)
+interval = args.interval[0]
+print(interval == 5)

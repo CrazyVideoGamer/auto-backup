@@ -42,14 +42,17 @@ def set_directory(path):
 	file.write_text(backup_path)
 
 class Minute:
-  def __init__(self, mins):
-    self.val = mins
+  def __init__(self, mins: int):
+    self.val = int(mins)
   def __repr__(self):
-    return f"Minte({self.val})"
+    return f'Minutes({self.val})'
   def __str__(self):
-    return f"Minutes: {self.val}"
+    return f'Minutes: {self.val}'
   def __eq__(self, other):
-    if self.val == other.val:
-      return True
-    else:
-      return False
+    if isinstance(other, int):
+      if self.val == other:
+        return True
+    if isinstance(other, Minute):
+      if self.val == other.val:
+        return True
+    return False
