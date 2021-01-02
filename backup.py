@@ -25,24 +25,6 @@ check_for_duplicates(target)
 
 setup(args) # Sets up all the setDirectory things
 
-# directory_set = False # So we don't repeat directory checking
-
-# # Creates a new dir.txt if this is the first time they are using it
-# # And calls set_directory
-# if not Path('dir.txt').exists():
-# 	Path('dir.txt').touch()
-# 	set_directory(r'./dir.txt')
-# 	directory_set = True
-
-# # If they want to set directory
-# if args.setDirectory:
-# 	if not directory_set:
-# 		set_directory(r'./dir.txt')
-
-# if not Path(args.target[0]).exists(): # Checks if target exists
-# 	print(f'{Fore.RED}File/directory not found{Style.RESET_ALL}')
-# 	sys.exit(1)
-
 # If the target does exist
 if args.command == 'add':
   path = Path('db.json')
