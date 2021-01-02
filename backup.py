@@ -16,11 +16,13 @@ init()
 
 import sys
 import argparse
+import json
 from pathlib import Path
 from helpers import *
 
 parser = argparse.ArgumentParser()
 parser.add_argument('target', nargs=1, type=Path)
+parser.add_argument('interval', nargs=1, type=Minute)
 parser.add_argument('--setDirectory', type=str2bool, help='set directory to add backups')
 
 args = parser.parse_args()
@@ -45,3 +47,4 @@ if not Path(args.target[0]).exists(): # Checks if target exists
 
 # If the target does exist
 
+print(args.interval[0].val)
