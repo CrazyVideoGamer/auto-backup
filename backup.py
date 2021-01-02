@@ -23,14 +23,6 @@ from helpers import *
 
 import parser
 
-# parser = argparse.ArgumentParser()
-# subparsers = parser.add_subparsers(help='sub-command -h') # TODO: Try to add --help as well
-
-# add_parser = subparsers.add_parser("add", help="add -h")
-# add_parser.add_argument('target', nargs=1, type=Path)
-# add_parser.add_argument('interval', nargs=1, type=Minute)
-# add_parser.add_argument('--setDirectory', type=str2bool, help='set directory to add backups')
-
 args = parser.parser.parse_args()
 
 directory_set = False # So we don't repeat directory checking
