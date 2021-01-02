@@ -16,9 +16,9 @@ import json
 from pathlib import Path
 from helpers import *
 
-from parser import parser
+import parser
 
-args = parser.parse_args()
+args = parser.parser.parse_args()
 target = args.target[0]
 
 check_for_duplicates(target)

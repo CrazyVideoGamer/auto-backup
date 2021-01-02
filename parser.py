@@ -1,6 +1,11 @@
 from pathlib import Path
-from helpers import Minute, str2bool
+import sys
+from helpers import Minute, str2bool, error_message
 import argparse
+
+if not len(sys.argv) > 1:
+  error_message('No arguments were provided. Use -h or --help for information')
+  sys.exit(1)
 
 parser = argparse.ArgumentParser()
 subparsers = parser.add_subparsers(help='sub-command -h', dest='command') # TODO: Try to add --help as well

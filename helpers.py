@@ -4,6 +4,9 @@ init()
 import os, tempfile, sys
 from pathlib import Path
 
+def error_message(text):
+  print(f'{Fore.RED}{text}{Style.RESET_ALL}')
+
 def is_path_sibling_creatable(pathname: str) -> bool:
 	'''
 	`True` if the current user has sufficient permissions to create **siblings**
@@ -83,5 +86,5 @@ def check_for_duplicates(target):
   path = Path('db.json')
   contents = path.read_text()
   if contents.find(f'"target": "{str(target)}"') != -1:
-    print(f"{Fore.RED}Target {target} already exists. Use update to update a queriy, or use remove to remove it.{Style.RESET_ALL}")
+    error_message(f"Target {target} already exists. Use update to update a queriy, or use remove to remove it.")
     sys.exit(1)
