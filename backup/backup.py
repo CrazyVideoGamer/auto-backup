@@ -16,9 +16,11 @@ import json
 from pathlib import Path
 from helpers import *
 
-import parser
+from parser import argc_allowed, create_parser
 
-args = parser.parser.parse_args()
+argc_allowed()
+
+args = create_parser().parse_args()
 
 if args.directory == None and args.setDefaultDir:
   error_message('Cannot set default directory when directory not given', 3)
