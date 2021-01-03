@@ -1,11 +1,19 @@
 from colorama import Fore, Style, init
 init()
 
-import os, tempfile, sys
+import os, tempfile, sys, argparse
+from typing import Literal
 from pathlib import Path
 
-def error_message(text):
-  print(f'{Fore.RED}{text}{Style.RESET_ALL}')
+def error_message(text, level: Literal[1,2,3]):
+  if level == 3:
+    print(f'{Fore.RED}{text}{Style.RESET_ALL}')
+    sys.exit(1)
+  elif level == 2:
+    # orange
+    pass
+  elif level == 1:
+    print(f'{Fore.YELLOW}{text}{Style.RESET_ALL}')
 
 def is_path_sibling_creatable(pathname):
 	'''
@@ -28,24 +36,22 @@ def is_path_sibling_creatable(pathname):
 	except EnvironmentError:
 		return False
 
-def str2bool(v):
-	import argparse
-	if isinstance(v, bool):
-	   return v
-	if v.lower() in ('yes', 'true', 't', 'y', '1'):
-		return True
-	elif v.lower() in ('no', 'false', 'f', 'n', '0'):
-		return False
-	else:
-		raise argparse.ArgumentTypeError('Boolean value expected.')
+def str2bool(v, isargparse=True):
+  if isinstance(v, bool):
+    return v
+  if v.lower() in ('yes', 'true', 't', 'y', '1'):
+    return True
+  elif v.lower() in ('no', 'false', 'f', 'n', '0'):
+    return False
+  else:
+    if isargparse:
+      raise argparse.ArgumentTypeError('Boolean value expected.')
+    else:
+      return "not bool"
 
-def set_directory(path):
-	file = Path(path)
-	backup_path = ""
-	print(is_path_sibling_creatable(backup_path))
-	while is_path_sibling_creatable(backup_path) == False or backup_path == "":
-		backup_path = input("Backup directory path: ")
-	file.write_text(backup_path)
+def set_default_directory(args):
+	file = Path("./data/dir.txt")
+	file.write_text(str(args.target[0]))
 
 class Minute:
   def __init__(self, mins: int):
@@ -63,28 +69,8 @@ class Minute:
         return True
     return False
 
-def setup(args):
-  directory_set = False # So we don't repeat directory checking
-
-  # Creates a new dir.txt if this is the first time they are using it
-  # And calls set_directory
-  if not Path('dir.txt').exists():
-    Path('dir.txt').touch()
-    set_directory(r'./dir.txt')
-    directory_set = True
-
-  # If they want to set directory
-  if args.setDirectory:
-    if not directory_set:
-      set_directory(r'./dir.txt')
-
-  if not Path(args.target[0]).exists(): # Checks if target exists
-    print(f'{Fore.RED}File/directory not found{Style.RESET_ALL}')
-    sys.exit(1)
-
 def check_for_duplicates(target):
-  path = Path('db.json')
+  path = Path('./data/db.json')
   contents = path.read_text()
   if contents.find(f'"target": "{str(target)}"') != -1:
-    error_message(f"Target {target} already exists. Use update to update a queriy, or use remove to remove it.")
-    sys.exit(1)
+    error_message(f"Target {target} already exists. Use update to update a queriy, or use remove to remove it.", 3)

@@ -1,9 +1,10 @@
 """
-Just for quickly reseting dir.txt
+Just for quickly reseting data
 """
 
 from pathlib import Path
 try:
-    Path(r"dir.txt").unlink()
+    Path(r"./data/dir.txt").unlink()
 except:
     pass
+Path(r"./data/db.json").write_text("[]")
