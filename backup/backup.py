@@ -20,13 +20,14 @@ import parser
 
 args = parser.parser.parse_args()
 target = args.target[0]
+directory = args.directory[0]
 
 check_for_duplicates(target)
 
 if args.setDefaultDir:
-  set_default_directory(args)
+  set_default_directory(directory)
 
-if not Path(target).is_dir(): # Checks if target exists
+if not Path(directory).is_dir(): # Checks if target exists
   error_message("Directory not found (may be a file)", 1)
   if Path(target).exists():
     Path(target).unlink()
@@ -35,7 +36,7 @@ if not Path(target).is_dir(): # Checks if target exists
     create_new = str2bool(input("Create new directory: "), isargparse=False)
 
   if create_new:
-    args.directory[0].mkdir(parents=True)
+    directory.mkdir(parents=True)
 
 # If the target does exist
 if args.command == 'add':
@@ -45,12 +46,12 @@ if args.command == 'add':
     path.write_text("[]")
   new_entry = {
     'target': str(target),
-    'interval': str(args.interval[0])
+    'interval': args.interval[0].val
   }
   if args.setDefaultDir:
-    set_default_directory(args.directory[0])
+    set_default_directory(directory)
   else:
-    new_entry['directory'] = args.directory[0]
+    new_entry['directory'] = directory
 
   old = json.loads(path.read_text())
   old.append(new_entry)

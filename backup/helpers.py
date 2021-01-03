@@ -49,17 +49,13 @@ def str2bool(v, isargparse=True):
     else:
       return "not bool"
 
-def set_default_directory(args):
-	file = Path("./data/dir.txt")
-	file.write_text(str(args.target[0]))
+def set_default_directory(directory):
+  file = Path("./data/dir.txt")
+  file.write_text(str(directory))
 
 class Minute:
   def __init__(self, mins: int):
     self.val = int(mins)
-  def __repr__(self):
-    return f'Minutes({self.val})'
-  def __str__(self):
-    return self.val
   def __eq__(self, other):
     if isinstance(other, int):
       if self.val == other:
