@@ -1,2 +1,2 @@
 language = "python3"
-run = "python3 ./backup/backup.py add y 5 ./cool --setDefaultDir=t"
+run = "python3 ./backup/backup.py add y 5 ./cool"

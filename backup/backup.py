@@ -19,8 +19,12 @@ from helpers import *
 import parser
 
 args = parser.parser.parse_args()
+
+if args.directory == None and args.setDefaultDir:
+  error_message('Cannot set default directory when directory not given', 3)
+
 target = args.target[0]
-directory = args.directory[0]
+directory = check_if_use_saved_directory(args.directory)
 
 check_for_duplicates(target)
 
@@ -51,7 +55,7 @@ if args.command == 'add':
   if args.setDefaultDir:
     set_default_directory(directory)
   else:
-    new_entry['directory'] = directory
+    new_entry['directory'] = str(directory)
 
   old = json.loads(path.read_text())
   old.append(new_entry)

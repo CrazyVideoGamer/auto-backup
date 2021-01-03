@@ -36,7 +36,7 @@ def is_path_sibling_creatable(pathname):
 	except EnvironmentError:
 		return False
 
-def str2bool(v, isargparse=True):
+def str2bool(v):
   if isinstance(v, bool):
     return v
   if v.lower() in ('yes', 'true', 't', 'y', '1'):
@@ -44,9 +44,6 @@ def str2bool(v, isargparse=True):
   elif v.lower() in ('no', 'false', 'f', 'n', '0'):
     return False
   else:
-    if isargparse:
-      raise argparse.ArgumentTypeError('Boolean value expected.')
-    else:
       return "not bool"
 
 def set_default_directory(directory):
@@ -70,3 +67,10 @@ def check_for_duplicates(target):
   contents = path.read_text()
   if contents.find(f'"target": "{str(target)}"') != -1:
     error_message(f"Target {target} already exists. Use update to update a queriy, or use remove to remove it.", 3)
+
+def check_if_use_saved_directory(directory):
+  if directory == None:
+    saved_directory = Path('./data/dir.txt')
+    return saved_directory.read_text()
+  else:
+    return directory
