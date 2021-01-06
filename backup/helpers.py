@@ -7,13 +7,13 @@ from pathlib import Path
 
 def error_message(text, level: Literal[1,2,3]):
   if level == 3:
-    print(f'{Fore.RED}{text}{Style.RESET_ALL}')
+    sys.stderr.write(f'{Fore.RED}{text}{Style.RESET_ALL}')
     sys.exit(1)
   elif level == 2:
     # orange
     pass
   elif level == 1:
-    print(f'{Fore.YELLOW}{text}{Style.RESET_ALL}')
+    sys.stderr.write(f'{Fore.YELLOW}{text}{Style.RESET_ALL}')
 
 def is_path_sibling_creatable(pathname):
 	'''
