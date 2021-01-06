@@ -7,5 +7,5 @@ def runargs(cmd):
 
 if __name__ == "__main__":
   x = runargs(["foo"])
-  x
+  print(x)
   print("foo" in x)
