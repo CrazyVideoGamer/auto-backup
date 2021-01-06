@@ -18,9 +18,6 @@ def test_check_if_enter_something_other_than_add_update_remove_run():
   #   parser.parse_args(['foo'])
   #   out, err = capfd.readouterr()
   out = runargs(["foo"])
-  type(out)
   print("parser.py: error: argument command:".index("a"))
-  assert "invalid choice: 'foo'" in out
+  assert "invalid choice: 'foo'" in out.err
   # assert "error: argument command: invalid choice: 'foo'" in out
-
-test_check_if_enter_something_other_than_add_update_remove_run()
