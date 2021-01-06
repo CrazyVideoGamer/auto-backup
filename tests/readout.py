@@ -8,4 +8,4 @@ def runargs(cmd):
 if __name__ == "__main__":
   x = runargs(["foo"])
   print(x)
-  print("foo" in x)
+  print(x, "foo" in x)
