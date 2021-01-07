@@ -2,9 +2,8 @@ from pathlib import Path
 import sys
 from helpers import Minute, error_message
 import argparse
-from typing import NoReturn
 
-def argc_allowed() -> NoReturn:
+def argc_allowed() -> None:
   if len(sys.argv) <= 1:
     error_message('No arguments were provided. Use -h or --help for information', 3)
     sys.exit(1)
