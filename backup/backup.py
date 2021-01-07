@@ -37,9 +37,10 @@ if not Path(directory).is_dir(): # Checks if target exists
   error_message("Directory not found (may be a file)", 1)
   if Path(target).exists():
     Path(target).unlink()
+
   create_new = "not bool"
   while create_new == "not bool":
-    create_new = str2bool(input("Create new directory: "), isargparse=False)
+    create_new = str2bool(input("Create new directory: "))
 
   if create_new:
     directory.mkdir(parents=True)

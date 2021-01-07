@@ -1,10 +1,9 @@
-"""
-Contains runargs function, which automatically runs args so I can easily test my argparse
-"""
+"""Helpers for my tests"""
 
 from subprocess import Popen, PIPE
 from collections import namedtuple
 
+# Runargs function
 Output = namedtuple('Output', 'out, err')
 
 def runargs(cmd: list):
@@ -14,5 +13,18 @@ def runargs(cmd: list):
   finished_running_output = [byte_str.decode("utf-8") for byte_str in p.communicate()]
   return Output(*finished_running_output)
 
-if __name__ == "__main__":
-  print(runargs(["foo", "hoho"]))
+# Reset Functions
+from pathlib import Path
+
+def del_dir():
+  try:
+      Path(r"./data/dir.txt").unlink()
+  except:
+      pass
+
+def reset_db():
+  Path(r"./data/db.json").write_text("[]")
+
+if __name__ == '__main__':
+  del_dir()
+  reset_db()

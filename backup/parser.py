@@ -1,14 +1,15 @@
 from pathlib import Path
 import sys
-from helpers import Minute, str2bool, error_message
+from helpers import Minute, error_message
 import argparse
+from typing import NoReturn
 
-def argc_allowed():
+def argc_allowed() -> NoReturn:
   if len(sys.argv) <= 1:
     error_message('No arguments were provided. Use -h or --help for information', 3)
     sys.exit(1)
 
-def create_parser():
+def create_parser() -> argparse.ArgumentParser:
   parser = argparse.ArgumentParser()
   subparsers = parser.add_subparsers(help='sub-command -h', dest='command') # TODO: Try to add --help as well
 

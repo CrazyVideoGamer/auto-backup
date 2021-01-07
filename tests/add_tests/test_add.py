@@ -1,6 +1,6 @@
 import pytest, sys
 sys.path.append("..")
-from readout import runargs
+from helpers import runargs
 
 def add_add_to_args(args):
   return [["add"] + arg for arg in args]
@@ -14,14 +14,15 @@ def test_not_enough_args(parser, args):
 
   assert "the following arguments are required" in test.err
 
-wrong_type = [
-  ["////badfilename", 10, "./cooldirn"], ["coolfilename", "bad minute num", "./cooldir"
-  ],
-  ["coolfilename", 10, "/////baddir"]
+# Bad fname and bad dir are checked during backup/backup.py, so we don't test it here
+wrong_type = [ 
+  ["fname", "bad min type", "./dir"],
+
 ]
-wrong_type = add_add_to_args(not_enough_args)
+wrong_type = add_add_to_args(wrong_type)
 
 @pytest.mark.parametrize('args', wrong_type)
 def test_wrong_type(parser, args):
   test = runargs(args)
   print(test.err)
+  print(str(args) + "\n")

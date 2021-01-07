@@ -1,11 +1,14 @@
+"""Helpers used for backup package"""
+
 from colorama import Fore, Style, init
 init()
 
-import os, tempfile, sys, argparse
+import os, tempfile, sys
 from typing import Literal
 from pathlib import Path
+from typing import Union
 
-def error_message(text, level: Literal[1,2,3]):
+def error_message(text: str, level: Literal[1,2,3]) -> None:
   if level == 3:
     sys.stderr.write(f'{Fore.RED}{text}{Style.RESET_ALL}')
     sys.exit(1)
@@ -15,7 +18,7 @@ def error_message(text, level: Literal[1,2,3]):
   elif level == 1:
     sys.stderr.write(f'{Fore.YELLOW}{text}{Style.RESET_ALL}')
 
-def is_path_sibling_creatable(pathname):
+def is_path_sibling_creatable(pathname: Union[Path, str]) -> bool:
 	'''
 	`True` if the current user has sufficient permissions to create **siblings**
 	(i.e., arbitrary files in the parent directory) of the passed pathname;
@@ -36,7 +39,7 @@ def is_path_sibling_creatable(pathname):
 	except EnvironmentError:
 		return False
 
-def str2bool(v):
+def str2bool(v) -> Union[bool, str]:
   if isinstance(v, bool):
     return v
   if v.lower() in ('yes', 'true', 't', 'y', '1'):
@@ -46,14 +49,14 @@ def str2bool(v):
   else:
       return "not bool"
 
-def set_default_directory(directory):
+def set_default_directory(directory: str) -> None:
   file = Path("./data/dir.txt")
   file.write_text(str(directory))
 
 class Minute:
   def __init__(self, mins: int):
     self.val = int(mins)
-  def __eq__(self, other):
+  def __eq__(self, other: int):
     if isinstance(other, int):
       if self.val == other:
         return True
@@ -68,7 +71,7 @@ def check_for_duplicates(target):
   if contents.find(f'"target": "{str(target)}"') != -1:
     error_message(f"Target {target} already exists. Use update to update a queriy, or use remove to remove it.", 3)
 
-def check_if_use_saved_directory(directory):
+def check_if_use_saved_directory(directory: str)-> str:
   if directory == None:
     saved_directory = Path('./data/dir.txt')
     return saved_directory.read_text()
