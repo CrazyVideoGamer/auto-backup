@@ -12,11 +12,11 @@ Options:
 """
 # import reset
 
-import json
+import json, sys
 from pathlib import Path
-from helpers import *
+from backup.helpers import error_message, check_if_use_saved_directory, check_for_duplicates, set_default_directory, str2bool
 
-from parser import argc_allowed, create_parser
+from backup.parser import argc_allowed, create_parser
 
 argc_allowed()
 
@@ -33,17 +33,17 @@ check_for_duplicates(target)
 if args.setDefaultDir:
   set_default_directory(directory)
 
-if not Path(directory).is_dir(): # Checks if target exists
+if not Path(directory).is_dir(): # Checks if directory not found
   error_message("Directory not found (may be a file)", 1)
-  if Path(target).exists():
-    Path(target).unlink()
 
-  create_new = "not bool"
+  create_new = None
   while create_new == "not bool":
-    create_new = str2bool(input("Create new directory: "))
+    create_new = str2bool(input(f"Create new directory {directory}: "))
 
   if create_new:
-    directory.mkdir(parents=True)
+    Path(directory).mkdir(parents=True)
+  else:
+    sys.exit()
 
 # If the target does exist
 if args.command == 'add':
@@ -53,7 +53,7 @@ if args.command == 'add':
     path.write_text("[]")
   new_entry = {
     'target': str(target),
-    'interval': args.interval[0].val
+    'interval': args.interval[0]
   }
   if args.setDefaultDir:
     set_default_directory(directory)
