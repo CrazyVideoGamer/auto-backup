@@ -22,9 +22,6 @@ def create_parser():
 
   return parser
 
-# add_subparsers = add_parser.add_subparsers(help='sub-command -h', dest='command')
-# directory_parser = add_subparsers.add_parser("directory", help="directory -h")
-# directory_parser.add_argument('--setDefaultDir', nargs="?", type=str2bool, help='if want to set a default directory', const=False)
-
 if __name__ == "__main__":
-  create_parser().parse_args()
+  args = create_parser().parse_args()
+  print(args)
