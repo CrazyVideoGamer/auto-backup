@@ -14,9 +14,9 @@ Options:
 
 import json, sys
 from pathlib import Path
-from backup.helpers import error_message, check_if_use_saved_directory, check_for_duplicates, set_default_directory, str2bool
+from helpers import error_message, check_if_use_saved_directory, check_for_duplicates, set_default_directory, str2bool
 
-from backup.parser import argc_allowed, create_parser
+from parser import argc_allowed, create_parser
 
 argc_allowed()
 
