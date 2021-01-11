@@ -1,6 +1,7 @@
 import pytest, sys
 # from pytest import capfd
-from helpers import reset_db, runargs
+print(sys.path)
+from test_helpers import reset_db, runargs
 
 # sys.path.insert(1, './backup')
 # from parser import create_parser
