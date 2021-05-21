@@ -1,2 +1,2 @@
 language = "python3"
-run = "pytest -s"
+run = "python backup/backup.py add test 1"

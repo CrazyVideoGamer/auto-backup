@@ -1,7 +1,7 @@
 '''Contains parser function and argc check function.'''
 
 from pathlib import Path
-from colorama import Fore, Style
+# from colorama import Fore, Style
 import sys
 # import os
 # sys.path.insert(1, os.getcwd())
@@ -21,10 +21,11 @@ def create_parser() -> argparse.ArgumentParser:
   add_parser = subparsers.add_parser("add", help="add -h")
   add_parser.add_argument('target', nargs=1, type=Path)
   add_parser.add_argument('interval', nargs=1, type=int)
-
   add_parser.add_argument('directory', nargs='?', type=Path, const=None)
-  add_parser.add_argument('--setDefaultDir', action='store_true',help='if want to set a default directory')
 
+  config_parser = subparsers.add_parser("config", help="config -h")
+  config_parser.add_argument('option', nargs=1, type=str)
+  config_parser.add_argument('value', nargs=1, type=str);
 
   return parser
 
