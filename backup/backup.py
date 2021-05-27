@@ -31,18 +31,14 @@ if args.directory == None and not default_directory_exists():
 if args.command == 'add':
 
   target = args.target[0]
-  print(args.directory);
   directory = check_if_use_saved_directory(args.directory)
 
   check_for_duplicates(target)
 
-  if args.setDefaultDir:
-    set_default_directory(directory)
-
   if not Path(directory).is_dir(): # Checks if directory not found
     error_message("Directory not found (may be a file)", 1)
 
-    create_new = None
+    create_new = "not bool"
     while create_new == "not bool":
       create_new = str2bool(input(f"Create new directory {directory}: "))
 
@@ -52,7 +48,7 @@ if args.command == 'add':
       sys.exit()
 
   # If the target does exist
-  if args.command == 'add':
+  if target.exists():
     path = Path('./data/db.json')
     if not path.exists():
       path.touch()
@@ -61,18 +57,17 @@ if args.command == 'add':
       'target': str(target),
       'interval': args.interval[0]
     }
-    if args.setDefaultDir:
-      set_default_directory(directory)
-    else:
-      new_entry['directory'] = str(directory)
+    new_entry['directory'] = str(directory)
 
     old = json.loads(path.read_text())
     old.append(new_entry)
     path.write_text(json.dumps(old))
 
 elif args.command == 'config':
+	#extract option & value
   option = args.option[0]
   value = args.value[0]
+
   if option == 'defaultDir':
     if dir_exists(value):
       set_default_directory(value);
