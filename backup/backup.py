@@ -25,10 +25,9 @@ argc_allowed()
 
 args = create_parser().parse_args()
 
-if args.directory == None and not default_directory_exists():
-  error_message('Cannot use default directory if default directory not set', 3)
-
 if args.command == 'add':
+  if args.directory == None and not default_directory_exists():
+    error_message('Cannot use default directory if default directory not set', 3)
 
   target = args.target[0]
   directory = check_if_use_saved_directory(args.directory)
@@ -59,9 +58,26 @@ if args.command == 'add':
     }
     new_entry['directory'] = str(directory)
 
-    old = json.loads(path.read_text())
-    old.append(new_entry)
-    path.write_text(json.dumps(old))
+    queries = json.loads(path.read_text())
+    queries.append(new_entry)
+    path.write_text(json.dumps(queries))
+    print(f"Successfully added {target}")
+
+elif args.command == 'remove':
+  target = str(args.target[0])
+  path = Path('./data/db.json')
+
+  if not path.exists():
+    error_message(f'Target "{target}" not found. Use `backup.py add <target> <time> <backup_directory>` to add "{target}"', 3)
+
+  queries = json.loads(path.read_text())
+
+  new_queries = filter(lambda query: query['target'] != target, queries)
+
+  str_new_queries = json.dumps(list(new_queries))
+
+  path.write_text(str_new_queries)
+  print(f"Successfully removed {target}")
 
 elif args.command == 'config':
 	#extract option & value
