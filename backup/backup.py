@@ -64,7 +64,7 @@ if args.command == 'add':
     print(f"Successfully added {target}")
 
 elif args.command == 'remove':
-  target = args.target[0]
+  target = str(args.target[0])
   path = Path('./data/db.json')
 
   if not path.exists():
@@ -73,10 +73,8 @@ elif args.command == 'remove':
   queries = json.loads(path.read_text())
 
   new_queries = filter(lambda query: query['target'] != target, queries)
-  # print(f"new_queries {list(new_queries)}")
 
   str_new_queries = json.dumps(list(new_queries))
-  # print(str_new_queries)
 
   path.write_text(str_new_queries)
   print(f"Successfully removed {target}")
