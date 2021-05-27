@@ -25,10 +25,9 @@ argc_allowed()
 
 args = create_parser().parse_args()
 
-if args.directory == None and not default_directory_exists():
-  error_message('Cannot use default directory if default directory not set', 3)
-
 if args.command == 'add':
+  if args.directory == None and not default_directory_exists():
+  error_message('Cannot use default directory if default directory not set', 3)
 
   target = args.target[0]
   directory = check_if_use_saved_directory(args.directory)
