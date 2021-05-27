@@ -61,16 +61,25 @@ if args.command == 'add':
     queries = json.loads(path.read_text())
     queries.append(new_entry)
     path.write_text(json.dumps(queries))
+    print(f"Successfully added {target}")
+
 elif args.command == 'remove':
   target = args.target[0]
   path = Path('./data/db.json')
 
   if not path.exists():
-    error_message(f'Target "${target}" not found. Use `backup.py add <target> <time> <backup_directory>` to add "${target}"', 3)
+    error_message(f'Target "{target}" not found. Use `backup.py add <target> <time> <backup_directory>` to add "{target}"', 3)
 
-  queries = json.loads(path.read_text)
+  queries = json.loads(path.read_text())
+
   new_queries = filter(lambda query: query['target'] != target, queries)
-  path.write_text(json.dumps(queries))
+  # print(f"new_queries {list(new_queries)}")
+
+  str_new_queries = json.dumps(list(new_queries))
+  # print(str_new_queries)
+
+  path.write_text(str_new_queries)
+  print(f"Successfully removed {target}")
 
 elif args.command == 'config':
 	#extract option & value
