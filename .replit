@@ -1,2 +1,1 @@
-language = "python3"
-run = "pytest -s"
+run="python backup/backup.py add targets/x 0.03 targets/backup"
