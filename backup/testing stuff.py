@@ -1,3 +1,5 @@
-from helpers import default_directory_exists
+target = "test"
+queries = [ {'target': "yeet"}, {'target':"test"}, {'target':"bruh"} ]
+new_queries = filter(lambda query: query['target'] != target, queries)
 
-print(default_directory_exists())
+print(list(new_queries))

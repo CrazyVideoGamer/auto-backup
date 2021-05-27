@@ -59,9 +59,19 @@ if args.command == 'add':
     }
     new_entry['directory'] = str(directory)
 
-    old = json.loads(path.read_text())
-    old.append(new_entry)
-    path.write_text(json.dumps(old))
+    queries = json.loads(path.read_text())
+    queries.append(new_entry)
+    path.write_text(json.dumps(queries))
+elif args.command == 'remove':
+  target = args.target[0]
+  path = Path('./data/db.json')
+
+  if not path.exists():
+    error_message(f'Target "${target}" not found. Use `backup.py add <target> <time> <backup_directory>` to add "${target}"', 3)
+
+  queries = json.loads(path.read_text)
+  new_queries = filter(lambda query: query['target'] != target, queries)
+  path.write_text(json.dumps(queries))
 
 elif args.command == 'config':
 	#extract option & value

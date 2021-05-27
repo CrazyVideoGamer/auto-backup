@@ -23,6 +23,9 @@ def create_parser() -> argparse.ArgumentParser:
   add_parser.add_argument('interval', nargs=1, type=float)
   add_parser.add_argument('directory', nargs='?', type=Path, const=None)
 
+  remove_parser = subparsers.add_parser("remove", help="remove -h")
+  remove_parser.add_argument('target', nargs=1, type=Path)
+
   config_parser = subparsers.add_parser("config", help="config -h")
   config_parser.add_argument('option', nargs=1, type=str)
   config_parser.add_argument('value', nargs=1, type=str);
