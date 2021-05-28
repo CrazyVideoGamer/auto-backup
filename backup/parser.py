@@ -9,13 +9,29 @@ import sys
 from helpers import error_message, str2bool
 import argparse
 
+usage = """
+backup.py run [--targets] <- TODO
+backup.py add <folder-file-path> <interval>
+					(-h | --help)
+backup.py config <option> <value>
+
+Explanation:
+  run:
+    --targets - the targets to backup
+  add:
+    folder-file-path - The folder or file to backup
+    interval - time until new backup <- TODO: allow for only user prompted backups
+  config:
+    option - Allowed values: defaultDir
+"""
+
 def argc_allowed() -> None:
   if len(sys.argv) <= 1:
     error_message('No arguments were provided. Use -h or --help for information\n', 3)
     sys.exit(1)
 
 def create_parser() -> argparse.ArgumentParser:
-  parser = argparse.ArgumentParser()
+  parser = argparse.ArgumentParser(description="Automatically back up your files/directories", usage=usage)
   subparsers = parser.add_subparsers(help='sub-command -h', dest='command') # TODO: Try to add --help as well
 
   add_parser = subparsers.add_parser("add", help="add -h")

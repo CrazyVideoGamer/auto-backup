@@ -1,25 +1,12 @@
-"""Usage:
-backup.py run [--targets] <- TODO
-backup.py add <folder-file-path> <interval>
-					(-h | --help)
-backup.py config <option> <value>
-
-Explanation:
-  run:
-    --targets - the targets to backup
-  add:
-    folder-file-path - The folder or file to backup
-    interval - time until new backup <- TODO: allow for only user prompted backups
-  config:
-    option - Allowed values: defaultDir
-"""
 # import reset
 
 import json, sys
 from pathlib import Path
 from helpers import error_message, check_if_use_saved_directory, check_for_duplicates, set_default_directory, default_directory_exists, str2bool, dir_exists
 
-from parser import argc_allowed, create_parser
+from parser import argc_allowed, create_parser, usage
+
+__doc__ = "Usage:\n" + usage
 
 argc_allowed()
 
