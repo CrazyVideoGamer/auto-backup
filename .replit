@@ -1,1 +1,2 @@
+language = "python3"
 run="python backup/backup.py remove targets/x"
