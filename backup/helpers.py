@@ -11,7 +11,7 @@ def error_message(text: str, level: int) -> None:
   """Gives a colored error message to user. When level is 3, the program exits"""
 
   if level == 3:
-    print(f'{Fore.RED}{text}{Style.RESET_ALL}')
+    print(f'{Fore.RED}{text}{Style.RESET_ALL}', file=sys.stderr)
     sys.exit(1)
   elif level == 2:
     # orange

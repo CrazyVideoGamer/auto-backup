@@ -50,5 +50,18 @@ def create_parser() -> argparse.ArgumentParser:
   return parser
 
 if __name__ == "__main__": # Used for testing parser
+  argc_allowed()
   args = create_parser().parse_args()
-  print(vars(args)) # use vars to get the underlying dictionary from Namespace object, so then I can use json.loads later to get the processed outputs
+  
+  dictionary = vars(args) # use vars to get the underlying dictionary from Namespace object
+  no_paths_dictionary = {} # extra dict to get rid of all the pathlib paths so json.dumps is happy
+
+  import pathlib
+
+  for key, value in dictionary.items():
+    if isinstance(value, pathlib.PurePath):
+      no_paths_dictionary[key] = str(value)
+
+  import json
+
+  print(json.dumps(no_paths_dictionary), end="") # dumps it so i can use it in testing by using json.loads

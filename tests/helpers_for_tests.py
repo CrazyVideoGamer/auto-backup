@@ -7,12 +7,21 @@ from collections import namedtuple
 Output = namedtuple('Output', 'out, err')
 
 def run_args_on_parser(cmd: list):
-	"""Run arguments to parser (doesn't create side effects)"""
-	if not isinstance(cmd, list):
-		raise TypeError("cmd arg is not a list")
-	p = Popen("python ./backup/parser.py " + " ".join(cmd), shell=True, stdout=PIPE, stderr=PIPE)
-	finished_running_output = [byte_str.decode("utf-8") for byte_str in p.communicate()]
-	return Output(*finished_running_output)
+  """Run arguments to parser (doesn't create side effects).
+Note: the output.out will return with no pathlib objects, so make sure to convert to a pathlib object if wanting to do something with the path file / dir."""
+  if not isinstance(cmd, list):
+    raise TypeError("cmd arg is not a list")
+  p = Popen("python ./backup/parser.py " + " ".join(cmd), shell=True, stdout=PIPE, stderr=PIPE)
+
+  out, err = [byte_str.decode("utf-8") for byte_str in p.communicate()]
+  
+  if not out == "":
+    json_loaded_out = json.loads(out)
+  else:
+    json_loaded_out = ""
+
+  output = Output(json_loaded_out, err)
+  return output
 
 import json
 

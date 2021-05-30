@@ -1,5 +1,5 @@
 # import pytest, sys
-from helpers_for_tests import reset_db, runargs as runargs
+from helpers_for_tests import reset_queries, run_args_on_parser as runargs
 
 # sys.path.insert(1, './backup')
 # from parser import create_parser
