@@ -36,16 +36,16 @@ def create_parser() -> argparse.ArgumentParser:
   subparsers = parser.add_subparsers(help='sub-command -h', dest='command') # TODO: Try to add --help as well
 
   add_parser = subparsers.add_parser("add", help="add -h")
-  add_parser.add_argument('target', nargs=1, type=Path)
-  add_parser.add_argument('interval', nargs=1, type=float)
+  add_parser.add_argument('target', type=Path)
+  add_parser.add_argument('interval', type=float)
   add_parser.add_argument('directory', nargs='?', type=Path, const=None)
 
   remove_parser = subparsers.add_parser("remove", help="remove -h")
-  remove_parser.add_argument('target', nargs=1, type=Path)
+  remove_parser.add_argument('target', type=Path)
 
   config_parser = subparsers.add_parser("config", help="config -h")
-  config_parser.add_argument('option', nargs=1, type=str)
-  config_parser.add_argument('value', nargs=1, type=str);
+  config_parser.add_argument('option', type=str)
+  config_parser.add_argument('value', type=str);
 
   return parser
 

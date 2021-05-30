@@ -16,7 +16,7 @@ if args.command == 'add':
   if args.directory == None and not default_directory_exists():
     error_message('Cannot use default directory if default directory not set', 3)
 
-  target = args.target[0]
+  target = args.target
   directory = check_if_use_saved_directory(args.directory)
 
   check_for_duplicates(target)
@@ -53,7 +53,7 @@ if args.command == 'add':
     error_message(f"Target {target} not found")
 
 elif args.command == 'remove':
-  target = str(args.target[0])
+  target = str(args.target)
   path = Path('./data/db.json')
 
   if not path.exists():
@@ -72,8 +72,8 @@ elif args.command == 'remove':
 
 elif args.command == 'config':
 	#extract option & value
-  option = args.option[0]
-  value = args.value[0]
+  option = args.option
+  value = args.value
 
   if option == 'defaultDir':
     if dir_exists(value):
