@@ -22,7 +22,7 @@ Explanation:
     folder-file-path - The folder or file to backup
     interval - time until new backup <- TODO: allow for only user prompted backups
   config:
-    option - Allowed values: defaultDir
+    option - Allowed values: defaultDir\n
 """
 
 def argc_allowed() -> None:
@@ -31,7 +31,8 @@ def argc_allowed() -> None:
     sys.exit(1)
 
 def create_parser() -> argparse.ArgumentParser:
-  parser = argparse.ArgumentParser(description="Automatically back up your files/directories", usage=usage)
+  # parser = argparse.ArgumentParser(description="Automatically back up your files/directories", usage=usage)
+  parser = argparse.ArgumentParser(description="Automatically back up your files/directories")
   subparsers = parser.add_subparsers(help='sub-command -h', dest='command') # TODO: Try to add --help as well
 
   add_parser = subparsers.add_parser("add", help="add -h")
@@ -48,6 +49,6 @@ def create_parser() -> argparse.ArgumentParser:
 
   return parser
 
-if __name__ == "__main__":
+if __name__ == "__main__": # Used for testing parser
   args = create_parser().parse_args()
-  print(args)
+  print(vars(args)) # use vars to get the underlying dictionary from Namespace object, so then I can use json.loads later to get the processed outputs

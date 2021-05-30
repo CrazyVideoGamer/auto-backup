@@ -49,6 +49,8 @@ if args.command == 'add':
     queries.append(new_entry)
     path.write_text(json.dumps(queries))
     print(f"Successfully added {target}")
+  else:
+    error_message(f"Target {target} not found")
 
 elif args.command == 'remove':
   target = str(args.target[0])
@@ -60,6 +62,8 @@ elif args.command == 'remove':
   queries = json.loads(path.read_text())
 
   new_queries = filter(lambda query: query['target'] != target, queries)
+  if queries == list(new_queries):
+    error_message(f"Target {target} has no queries. Use `backup.py add` to add a new query", 3)
 
   str_new_queries = json.dumps(list(new_queries))
 

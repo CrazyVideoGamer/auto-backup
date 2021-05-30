@@ -20,7 +20,7 @@ def error_message(text: str, level: int) -> None:
     print(f'{Fore.YELLOW}{text}{Style.RESET_ALL}')
 
 def file_exists(filename: str) -> bool:
-  """Check"""
+  """Check if file exists"""
   file = Path(filename)
   if file.is_file():
     return True
