@@ -1,12 +1,8 @@
 '''Contains parser function and argc check function.'''
 
 from pathlib import Path
-# from colorama import Fore, Style
 import sys
-# import os
-# sys.path.insert(1, os.getcwd())
-# print(f'{Fore.RED}{sys.path}{Style.RESET_ALL}')
-from helpers import error_message, str2bool
+from helpers import error_message # type: ignore
 import argparse
 
 usage = """
@@ -27,7 +23,7 @@ Explanation:
 
 def argc_allowed() -> None:
   if len(sys.argv) <= 1:
-    error_message('No arguments were provided. Use -h or --help for information\n', 3)
+    error_message('No arguments were provided. Use -h or --help for information', 3)
     sys.exit(1)
 
 def create_parser() -> argparse.ArgumentParser:

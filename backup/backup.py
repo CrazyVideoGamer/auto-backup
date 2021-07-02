@@ -1,10 +1,9 @@
-# import reset
-
 import json, sys
 from pathlib import Path
-from helpers import error_message, check_if_use_saved_directory, check_for_duplicates, set_default_directory, default_directory_exists, str2bool, dir_exists
 
-from parser import argc_allowed, create_parser, usage
+# I have to use `# type: ignore` so I don't get errors that these imports don't work.
+from helpers import error_message, getDataFolder, check_if_use_saved_directory, check_for_duplicates, set_default_directory, default_directory_exists, str2bool, dir_exists # type: ignore
+from parser import argc_allowed, create_parser, usage # type: ignore
 
 __doc__ = "Usage:\n" + usage
 
@@ -35,15 +34,17 @@ if args.command == 'add':
 
   # If the target does exist
   if target.exists():
-    path = Path('./data/db.json')
+    path = getDataFolder() / 'db.json' 
     if not path.exists():
       path.touch()
       path.write_text("[]")
+
+    print(type(args.interval));
     new_entry = {
       'target': str(target),
-      'interval': args.interval[0]
+      'interval': args.interval[0],
+      'directory': str(directory)
     }
-    new_entry['directory'] = str(directory)
 
     queries = json.loads(path.read_text())
     queries.append(new_entry)
@@ -54,7 +55,7 @@ if args.command == 'add':
 
 elif args.command == 'remove':
   target = str(args.target)
-  path = Path('./data/db.json')
+  path = getDataFolder() / 'db.json'
 
   if not path.exists():
     error_message(f'Target "{target}" not found. Use `backup.py add <target> <time> <backup_directory>` to add "{target}"', 3)
@@ -71,7 +72,7 @@ elif args.command == 'remove':
   print(f"Successfully removed {target}")
 
 elif args.command == 'config':
-	#extract option & value
+  #extract option & value
   option = args.option
   value = args.value
 
