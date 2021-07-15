@@ -1,3 +1,5 @@
+# linux: curl https://raw.githubusercontent.com/CrazyVideoGamer/auto-backup/main/get_auto_backup.py | python3      <-- not yet tested
+# windows cmd: curl https://raw.githubusercontent.com/CrazyVideoGamer/auto-backup/main/get_auto_backup.py | python <-- not yet tested 
 from pathlib import Path
 import argparse
 
@@ -27,13 +29,6 @@ def create_parser() -> argparse.ArgumentParser:
   parser.add_argument("--uninstall", action='store_true')
 
   return parser
-
-def uninstall(install_path: Path):
-  if (not install_path.exists() or (install_path.exists() and not (install_path / '.is-auto-backup').exists())):
-    error_message("auto-backup is not installed")
-  print("Uninstalling auto-backup...")
-  subprocess.run(f"rm -r {str(install_path)}", shell=True)
-  print("Done!")
 
 args = create_parser().parse_args()
 
@@ -66,8 +61,11 @@ if system == "Linux":
 
       print(f"add `export PATH={str(install_path / 'auto-backup' / 'backup' / 'bin')}:$PATH` to ~/.bashrc to complete the installation")
   else:
-   uninstall(install_path) 
-
+    if (not install_path.exists() or (install_path.exists() and not (install_path / '.is-auto-backup').exists())):
+      error_message("auto-backup is not installed")
+    print("Uninstalling auto-backup...")
+    subprocess.run(f"rm -r {str(install_path)}", shell=True)
+    print("Done!")
 elif system == "Windows":
   install_path = Path.home() / "auto-backup"
 
@@ -87,7 +85,7 @@ elif system == "Windows":
           print("Installing auto-backup...")
 
           subprocess.run("git clone --quiet --depth=1 --branch=main https://github.com/CrazyVideoGamer/auto-backup.git backup", cwd=install_path, shell=True)
-          subprocess.run("rm -rf ./backup/.git", cwd=install_path, shell=True)
+          subprocess.run("rd /s /q \"backup/.git\"", cwd=install_path, shell=True)
           subprocess.run("pip install -r requirements.txt -t lib > nul 2>&1", cwd=(install_path / "backup"), shell=True)
         
           print("Done!\n")
@@ -96,7 +94,10 @@ elif system == "Windows":
 
       print(f"add {str(install_path / 'auto-backup' / 'backup' / 'bin')} to PATH to complete the installation")
   else:
-    uninstall(install_path)
-
+    if (not install_path.exists() or (install_path.exists() and not (install_path / 'is-auto-backup').exists())):
+      error_message("auto-backup is not installed")
+    print("Uninstalling auto-backup...")
+    subprocess.run(f"rd /s /q {str(install_path)}", shell=True)
+    print("Done!")
 else:
   error_message("System {system} is not supported")
