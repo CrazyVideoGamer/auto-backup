@@ -24,7 +24,7 @@ def error_message(message: str) -> None:
   system = platform.system()
 
   if system == "Windows":
-    subprocess.run("color")  
+    subprocess.run("color", shell=True)  
 
   print("\u001b[31;1m" + message + "\u001b[0m", file=sys.stderr)
   sys.exit(0)
