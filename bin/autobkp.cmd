@@ -1,1 +1,1 @@
-auto-backup
+C:\Users\%username%\auto-backup\backup\backup\backup.py

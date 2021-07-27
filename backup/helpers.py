@@ -1,10 +1,9 @@
 """Helpers used for backup package"""
 
-
 from pathlib import Path
 
 import sys
-sys.path.insert(0, str(Path(__file__).parents[1] / "lib")) # add libraries to path
+sys.path.insert(0, str(Path(__file__).absolute().parents[1] / "lib")) # add libraries to path
 
 from colorama import Fore, Style, init # type: ignore
 init()
@@ -25,7 +24,7 @@ def error_message(text: str, level: int) -> None:
 
 
 def getDataFolder() -> Path:
-  return Path(__file__).parents[2] / "data" 
+  return Path(__file__).absolute().parents[2] / "data" 
 
 def file_exists(filename: str) -> bool:
   """Check if file exists"""

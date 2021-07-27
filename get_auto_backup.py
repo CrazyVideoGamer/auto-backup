@@ -21,7 +21,76 @@ def does_git_exist():
 
 def error_message(message: str) -> None:
   # \u001b[31m makes it red, \u001b[0m makes the color reset
-  print("\u001b[31m" + message + "\u001b[0m")
+  system = platform.system()
+
+  if system == "Linux":
+    print("\u001b[31m" + message + "\u001b[0m", file=sys.stderr)
+  elif system == "Windows":
+    # Taken from https://www.burgaud.com/bring-colors-to-the-windows-console-with-python
+    # Also looked at colorama code (take a look at https://github.com/tartley/colorama/blob/7a85efbc6d5b59665badb50b953d12390047b5f8/colorama/winterm.py and https://github.com/tartley/colorama/blob/7a85efbc6d5b59665badb50b953d12390047b5f8/colorama/win32.py)
+
+    from ctypes import windll, Structure, c_short, c_ushort, byref
+    STD_OUTPUT_HANDLE = -11
+    STD_ERROR_HANDLE = -12
+
+    FOREGROUND_RED = 0x0004
+    stdout_handle = windll.kernel32.GetStdHandle(STD_OUTPUT_HANDLE)
+    SetConsoleTextAttribute = windll.kernel32.SetConsoleTextAttribute
+    GetConsoleScreenBufferInfo = windll.kernel32.GetConsoleScreenBufferInfo
+
+    SHORT = c_short
+    WORD = c_ushort
+
+    class COORD(Structure):
+      """struct in wincon.h."""
+      _fields_ = [
+        ("X", SHORT),
+        ("Y", SHORT)]
+
+    class SMALL_RECT(Structure):
+      """struct in wincon.h."""
+      _fields_ = [
+        ("Left", SHORT),
+        ("Top", SHORT),
+        ("Right", SHORT),
+        ("Bottom", SHORT)]
+    class CONSOLE_SCREEN_BUFFER_INFO(Structure):
+      """struct in wincon.h."""
+      _fields_ = [
+        ("dwSize", COORD),
+        ("dwCursorPosition", COORD),
+        ("wAttributes", WORD),
+        ("srWindow", SMALL_RECT),
+        ("dwMaximumWindowSize", COORD)]
+
+    def get_text_attr(stream_id=stdout_handle):
+      """Returns the character attributes (colors of the console screen
+      buffer.)"""
+      csbi = CONSOLE_SCREEN_BUFFER_INFO()
+      GetConsoleScreenBufferInfo(stream_id, byref(csbi))
+      return csbi.wAttributes
+
+    def set_text_attr(color, stream_id=stdout_handle):
+      """Sets the character attributes (colors) of the console screen
+      buffer. Color is a combination of foreground and background color,
+      foreground and background intensity."""
+      SetConsoleTextAttribute(stream_id, color)
+
+    attrs = get_text_attr()
+    fore = attrs & 7
+    back = (attrs >> 4) & 7
+
+    FOREGROUND_INTENSITY = 0x08
+    BACKGROUND_INTENSITY = 0x80
+
+    style = attrs & (FOREGROUND_INTENSITY | BACKGROUND_INTENSITY)
+
+    set_text_attr(FOREGROUND_RED | back | style)
+
+    print(message, file=sys.stderr)
+
+    set_text_attr(fore | back | style)
+
   sys.exit(0)
 
 def create_parser() -> argparse.ArgumentParser:
